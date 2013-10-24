@@ -1,0 +1,4 @@
+set tabstop=4
+set shiftwidth=4
+au BufNewFile,BufRead *.ino set filetype=c
+au BufNewFile,BufRead *.pde set filetype=c

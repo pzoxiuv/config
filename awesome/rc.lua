@@ -77,7 +77,7 @@ layouts =
 tags = {}
 for s = 1, screen.count() do
     -- Each screen has its own tag table.
-    tags[s] = awful.tag({ 1, 2, 3, 4, 5 }, s, layouts[2])
+    tags[s] = awful.tag({ 1, 2, 3, 4, 5, 6, 7 }, s, layouts[2])
 end
 -- }}}
 
@@ -251,7 +251,7 @@ globalkeys = awful.util.table.join(
     
 	awful.key({ modkey, "Control" }, "Left",   awful.tag.viewprev       ),
     awful.key({ modkey, "Control" }, "Right",  awful.tag.viewnext       ),
-    awful.key({ modkey,           }, "Escape", awful.tag.history.restore),
+    awful.key({ modkey,           }, "Tab", awful.tag.history.restore),
 
     awful.key({ modkey,           }, "j",
     --awful.key({ modkey,           }, "Tab",
@@ -273,14 +273,14 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey, "Control" }, "j", function () awful.screen.focus_relative( 1) end),
     awful.key({ modkey, "Control" }, "k", function () awful.screen.focus_relative(-1) end),
     awful.key({ modkey,           }, "u", awful.client.urgent.jumpto),
-    awful.key({ modkey,           }, "Tab",
+--    awful.key({ modkey,           }, "Tab",
     --awful.key({ modkey,           }, "j",
-        function ()
-            awful.client.focus.history.previous()
-            if client.focus then
-                client.focus:raise()
-            end
-        end),
+--        function ()
+--            awful.client.focus.history.previous()
+--            if client.focus then
+--                client.focus:raise()
+--            end
+--        end),
 
     -- Standard program
     awful.key({ modkey,           }, "Return", function () awful.util.spawn(terminal) end),

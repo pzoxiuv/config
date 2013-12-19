@@ -6,13 +6,18 @@
 
 theme = {}
 
+--theme.wallpaper_cmd = { "awsetbg /home/alex/Pictures/Backgrounds/winterlake.jpg" }
+theme.wallpaper = { "/home/alex/Pictures/Backgrounds/winterlake.jpg" }
+
+theme.tasklist_disable_icon = true
+
 theme.font          = "profont 10"
 
 theme.bg_normal     = "#161616"
 --theme.bg_focus      = "#535d6c"
 theme.bg_focus		= "#161616"
 theme.bg_urgent     = "#ff0000"
-theme.bg_minimize   = "#444444"
+--theme.bg_minimize   = "#444444"
 
 --theme.fg_normal     = "#aaaaaa"
 theme.fg_normal		= "#ffffff"
@@ -20,7 +25,7 @@ theme.fg_normal		= "#ffffff"
 --theme.fg_focus		= "#8086F6"
 theme.fg_focus		= "#69CFFB"
 theme.fg_urgent     = "#ffffff"
-theme.fg_minimize   = "#ffffff"
+--theme.fg_minimize   = "#ffffff"
 
 theme.border_width  = "1"
 theme.border_normal = "#000000"
@@ -86,7 +91,8 @@ theme.titlebar_maximized_button_focus_active  = "/usr/share/awesome/themes/defau
 
 -- You can use your own command to set your wallpaper
 --theme.wallpaper_cmd = { "awsetbg /home/alex/Pictures/Backgrounds/afallsunrise.jpg" }
-theme.wallpaper_cmd = { "awsetbg /home/alex/Pictures/Backgrounds/mtrainier.jpg" }
+--theme.wallpaper_cmd = { "awsetbg /home/alex/Pictures/Backgrounds/mtrainier.jpg" }
+--theme.wallpaper_cmd = { "awsetbg /home/alex/Pictures/Backgrounds/firstlightofwinter.jpg" }
 
 -- You can use your own layout icons like this:
 theme.layout_fairh = "/usr/share/awesome/themes/default/layouts/fairhw.png"

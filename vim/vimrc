@@ -1,4 +1,36 @@
+" Fix page up/down
+map <silent> <PageUp> 1000<C-U>
+map <silent> <PageDown> 1000<C-D>
+imap <silent> <PageUp> <C-O>1000<PageUp>
+imap <silent> <PageDown> <C-O>1000<PageDown>
+set nostartofline
+
+" Tab stuff
 set tabstop=4
 set shiftwidth=4
+"set smartindent
+
+" Arduino file stuff
 au BufNewFile,BufRead *.ino set filetype=c
 au BufNewFile,BufRead *.pde set filetype=c
+
+" Solarized stuff
+syntax enable
+set background=dark
+colorscheme solarized
+
+" NeoComplCache settings:
+"let g:neocomplcache_enable_at_startup = 1
+inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+function! s:my_cr_function()
+  return neocomplcache#smart_close_popup() . "\<CR>"
+  " For no inserting <CR> key.
+  "return pumvisible() ? neocomplcache#close_popup() : "\<CR>"
+endfunction
+" <TAB>: completion.
+inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+" <C-h>, <BS>: close popup and delete backword char.
+inoremap <expr><C-h> neocomplcache#smart_close_popup()."\<C-h>"
+inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
+inoremap <expr><C-y>  neocomplcache#close_popup()
+inoremap <expr><C-e>  neocomplcache#cancel_popup()

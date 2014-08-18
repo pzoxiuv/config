@@ -1,4 +1,5 @@
 -- Standard awesome library
+local revelation = require("revelation")
 local wibox = require("wibox")
 local awful = require("awful")
 require("awful.autofocus")
@@ -42,8 +43,11 @@ end
 -- {{{ Variable definitions
 -- Themes define colours, icons, and wallpapers
 beautiful.init("/home/alex/.config/awesome/theme.lua")
+revelation.init()
+
 for s = 1, screen.count() do
-	gears.wallpaper.maximized("/home/alex/Pictures/Backgrounds/winterlake.jpg", s, true)
+	--gears.wallpaper.maximized("/home/alex/Pictures/Backgrounds/winterlake.jpg", s, true)
+	gears.wallpaper.maximized("/home/alex/Pictures/Backgrounds/TorontoKingStDatacenter.jpg", s, false)
 end
 
 -- This is used later as the default terminal and editor to run.
@@ -308,6 +312,9 @@ globalkeys = awful.util.table.join(
         end),
     awful.key({ modkey,           }, "w", function () mymainmenu:show({keygrabber=true}) end),
 
+    -- Revelation
+    awful.key({ modkey, }, "p", revelation),
+
     -- Layout manipulation
     awful.key({ modkey, "Shift"   }, "j", function () awful.client.swap.byidx(  1)    end),
     awful.key({ modkey, "Shift"   }, "k", function () awful.client.swap.byidx( -1)    end),
@@ -324,20 +331,9 @@ globalkeys = awful.util.table.join(
 --        end),
 
     -- Standard program
-    awful.key({ modkey,           }, "Return", function () awful.util.spawn(terminal) end),
-    awful.key({ "Control"           }, "space", function () awful.util.spawn(terminal) end),
-    awful.key({ modkey, "Control" }, "r", awesome.restart),
-    awful.key({ modkey, "Shift"   }, "q", awesome.quit),
-
-    awful.key({ modkey,           }, "l",     function () awful.tag.incmwfact( 0.05)    end),
-    awful.key({ modkey,           }, "h",     function () awful.tag.incmwfact(-0.05)    end),
-    awful.key({ modkey, "Shift"   }, "h",     function () awful.tag.incnmaster( 1)      end),
-    awful.key({ modkey, "Shift"   }, "l",     function () awful.tag.incnmaster(-1)      end),
-    awful.key({ modkey, "Control" }, "h",     function () awful.tag.incncol( 1)         end),
-    awful.key({ modkey, "Control" }, "l",     function () awful.tag.incncol(-1)         end),
-    awful.key({ modkey,           }, "space", function () awful.layout.inc(layouts,  1) end),
-    awful.key({ modkey, "Shift"   }, "space", function () awful.layout.inc(layouts, -1) end),
-    awful.key({ modkey, "Control" }, "a",
+    --awful.key({ modkey,           }, "Return", function () awful.util.spawn(terminal) end),
+	-- Opens a terminal in the most common CWD for this tag
+    awful.key({ modkey,           }, "Return",
 				function ()
 					paths = {}
 					pathname = ""
@@ -345,6 +341,7 @@ globalkeys = awful.util.table.join(
 					most_common_str = ""
 					current_tag = tags[mouse.screen][awful.tag.getidx()]
 					for _, c in pairs(current_tag:clients()) do
+						pid = c.pid
 						if string.find(c.name, "Terminal") then
 							pathname = string.sub(c.name, 26)
 							if paths[pathname] == nil then
@@ -358,8 +355,46 @@ globalkeys = awful.util.table.join(
 							end
 						end
 					end
-					awful.util.spawn(terminal .. " -e \"cd /home/alex/College/\"")
---					awful.util.spawn_with_shell("echo " .. terminal .. " --working-directory=" .. most_common_str .. " >> /home/alex/tmp2")
+					expanded_str = most_common_str:gsub("~", os.getenv("HOME") .. "/")
+					awful.util.spawn("xfce4-terminal --working-directory=\"" .. expanded_str .. "\"")
+				end),
+
+    awful.key({ "Control"           }, "space", function () awful.util.spawn(terminal) end),
+    awful.key({ modkey, "Control" }, "r", awesome.restart),
+    awful.key({ modkey, "Shift"   }, "q", awesome.quit),
+
+    awful.key({ modkey,           }, "l",     function () awful.tag.incmwfact( 0.05)    end),
+    awful.key({ modkey,           }, "h",     function () awful.tag.incmwfact(-0.05)    end),
+    awful.key({ modkey, "Shift"   }, "h",     function () awful.tag.incnmaster( 1)      end),
+    awful.key({ modkey, "Shift"   }, "l",     function () awful.tag.incnmaster(-1)      end),
+    awful.key({ modkey, "Control" }, "h",     function () awful.tag.incncol( 1)         end),
+    awful.key({ modkey, "Control" }, "l",     function () awful.tag.incncol(-1)         end),
+    awful.key({ modkey,           }, "space", function () awful.layout.inc(1, mouse.screen, layouts) end),
+    awful.key({ modkey, "Shift"   }, "space", function () awful.layout.inc(-1, mouse.screen, layouts) end),
+    awful.key({ modkey, "Control" }, "a",
+				function ()
+					paths = {}
+					pathname = ""
+					most_common_num = 0
+					most_common_str = ""
+					current_tag = tags[mouse.screen][awful.tag.getidx()]
+					for _, c in pairs(current_tag:clients()) do
+						pid = c.pid
+						if string.find(c.name, "Terminal") then
+							pathname = string.sub(c.name, 26)
+							if paths[pathname] == nil then
+								paths[pathname] = 1
+							else
+								paths[pathname] = paths[pathname] + 1
+							end
+							if paths[pathname] > most_common_num then
+								most_common_num = paths[pathname]
+								most_common_str = pathname
+							end
+						end
+					end
+					expanded_str = most_common_str:gsub("~", os.getenv("HOME") .. "/")
+					awful.util.spawn("xfce4-terminal --working-directory=\"" .. expanded_str .. "\"")
 				end),
 
     awful.key({ modkey, "Control" }, "n", awful.client.restore),
@@ -388,7 +423,7 @@ clientkeys = awful.util.table.join(
         function (c)
             -- The client currently has the input focus, so it cannot be
             -- minimized, since minimized clients can't have the focus.
-            c.minimized = true
+--            c.minimized = true
         end)
     --awful.key({ modkey,           }, "m",
     --    function (c)
@@ -497,4 +532,5 @@ client.connect_signal("focus", function(c) c.border_color = beautiful.border_foc
 client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
 
 awful.util.spawn_with_shell("numlockx")
+awful.util.spawn_with_shell("xmodmap /home/alex/.xmodmap")
 -- }}}

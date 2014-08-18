@@ -17,6 +17,7 @@ au BufNewFile,BufRead *.pde set filetype=c
 " Solarized stuff
 syntax enable
 set background=dark
+set t_Co=256
 colorscheme solarized
 
 " NeoComplCache settings:

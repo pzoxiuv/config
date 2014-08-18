@@ -7,7 +7,8 @@
 theme = {}
 
 --theme.wallpaper_cmd = { "awsetbg /home/alex/Pictures/Backgrounds/winterlake.jpg" }
-theme.wallpaper = { "/home/alex/Pictures/Backgrounds/winterlake.jpg" }
+--theme.wallpaper = { "/home/alex/Pictures/Backgrounds/winterlake.jpg" }
+theme.wallpaper = { "/home/alex/Pictures/Backgrounds/TorontoKingStDatacenter.jpg" }
 
 theme.tasklist_disable_icon = true
 
